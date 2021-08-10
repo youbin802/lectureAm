@@ -1,0 +1,85 @@
+* {
+    margin:0;
+    padding:0;
+    overflow-x: hidden;
+    /* background-color: rgb(241, 227, 227); */
+}
+
+.container {
+    margin:0 auto;
+    width:1500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.slide {
+    width:800px;
+    height:500px;
+    position: relative;
+}
+
+.slide > .img-container {
+    width:100%;
+    height:100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide > .img-container > .slide-image {
+    width: 100%;
+    height:100%;
+    object-fit: cover;
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.slide > .button-container {
+    position: absolute;
+    left:0;
+    top:50%;
+    transform: translateY("-50%");
+    display: flex;
+    justify-content: space-between;
+    padding:0 20px;
+    width: 100%;    
+    box-sizing: border-box;
+}
+
+.slide > .button-container > .slide-btn {
+    padding:25px 15px;
+    background-color: rgba(255, 255, 255, 0);
+    font-size:45px;
+    color:#fff;
+    border:0;
+    cursor: pointer;
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.8);
+}
+
+.slide > .pin-container {
+    position: absolute;
+    bottom:20px;
+    left:50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+    width: 30%;
+    align-items: center;
+}
+
+.slide > .pin-container > .pin {
+    width:15px;
+    height:15px;
+    border-radius: 50%;
+    background-color: #fff;
+    border:5px solid rgb(255, 207, 207);
+    cursor: pointer;
+}
+
+.slide > .pin-container > .pin.active {
+    width:15px;
+    height:15px;
+    background-color: rgb(79, 147, 202);
+}

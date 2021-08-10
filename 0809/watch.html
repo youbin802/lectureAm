@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시계</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./css/watch.css">
+</head>
+<body>
+    <div class="container">
+        <div class="watch">
+            <div class="hour">
+                <div class="box">00</div>
+                <div class="box">01</div>
+            </div>
+            <div class="minute">
+                <div class="box">00</div>
+                <div class="box">01</div>
+            </div>
+            <div class="second">
+                <div class="box">00</div>
+                <div class="box">01</div>
+            </div>
+        </div>
+        <div class="control">
+            <button id="test">테스트</button>
+            <button id="stop">멈춰</button>
+        </div>
+    </div>
+
+    <script>
+        let interval = function(){
+            let now = new Date();
+            let h = ("00" + now.getHours()).substr(-2);
+            let m = ("00" + now.getMinutes()).substr(-2);
+            let s = ("00" + now.getSeconds()).substr(-2);
+
+            $(".hour > .box").eq(1).text(h);
+            $(".minute > .box").eq(1).text(m);
+            $(".second > .box").eq(1).text(s);
+
+            if($(".hour > .box").eq(1).text() !=$(".hour > .box").eq(0).text()) {
+                $(".hour > .box").eq(1).animate({"top":0}, 500);
+                $(".hour > .box").eq(0).animate({"top":"-100%"}, 500);
+            }
+
+            if($(".minute > .box").eq(1).text() != $(".minute > .box").eq(0).text()) {
+                $(".minute > .box").eq(1).animate({"top":0}, 500);
+                $(".minute > .box").eq(0).animate({"top":"-100%"}, 500);
+            }
+
+            if($(".second > .box").eq(1).text() != $(".second > .box").eq(0).text()) {
+                $(".second > .box").eq(1).animate({"top":0}, 500);
+                $(".second > .box").eq(0).animate({"top":"-100%"}, 500);
+            }
+
+            setTimeout(function(){ 
+                $(".hour > .box").eq(0).text(h);
+                $(".minute > .box").eq(0).text(m);
+                $(".second > .box").eq(0).text(s);
+
+                $(".hour > .box").eq(0).css({"top": 0});
+                $(".minute > .box").eq(0).css({"top": 0});
+                $(".second > .box").eq(0).css({"top": 0});
+
+                $(".hour > .box").eq(1).css({"top": "100%"});
+                $(".minute > .box").eq(1).css({"top": "100%"});
+                $(".second > .box").eq(1).css({"top": "100%"});
+
+            }, 600);
+        };
+
+        $("#test").on("click",e=> {
+            setInterval(interval, 1000);
+        });
+
+        $("#stop").on("click",e=> {
+            clearInterval(interval);
+        });
+
+        
+    </script>
+</body>
+</html>

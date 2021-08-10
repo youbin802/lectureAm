@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타이머</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./css/class.css">
+</head>
+<body>
+    <div class="container">
+        <div class="watch">
+            <div class="hour">
+                <div class="box">00</div>
+                <div class="box">01</div>
+            </div>
+            <div class="minute">
+                <div class="box">00</div>
+                <div class="box">01</div>
+            </div>
+            <div class="second">
+                <div class="box">00</div>
+                <div class="box">01</div>
+            </div>
+        </div>
+        <div class="control">
+            <button id="start">시작</button>
+            <button id="stop">일시정지</button>
+            <button id="reset">정지</button>
+        </div>
+        <!-- <canvas id="Circle" width="300" height="300"></canvas> -->
+    </div>
+    <script>
+        let h = $(".hour .box");
+        let m = $(".minute .box");
+        let s = $(".second .box");
+        let flag = false;
+        
+        const log = console.log;
+        let time=0;
+        function start() {
+            log(time);
+            let hour = Math.floor(time / 3600);
+            let min = Math.floor(time % 3600 / 60);
+            let sec = time % 60;
+    
+                if(hour < 10) {
+                    hour = "0" + hour;
+                }
+                if(min < 10) {
+                    min = "0" + min;
+                }
+                if(sec < 10) {
+                    sec = "0" + sec;
+                }
+            
+            $(".hour > .box").eq(1).text(hour);
+            $(".minute > .box").eq(1).text(min);
+            $(".second > .box").eq(1).text(sec);
+
+            if($(".second > .box").eq(1).text() != $(".second > .box").eq(0)) {
+                $(".second > .box").eq(1).animate({"top":0}, 400);
+                $(".second > .box").eq(0).animate({"top":"-100%"}, 400);
+            }
+
+            if($(".minute > .box").eq(1).text() != $(".minute > .box").eq(0).text()) {
+                $(".minute > .box").eq(1).animate({"top":0}, 400);
+                $(".minute > .box").eq(0).animate({"top":"-100%"}, 400);
+            }
+
+            if($(".hour > .box").eq(1).text() != $(".hour > .box").eq(0).text()) {
+                $(".hour > .box").eq(1).animate({"top":0}, 400);
+                $(".hour > .box").eq(0).animate({"top":"-100%"}, 400);
+            } 
+
+            setTimeout(function(){ 
+                $(".hour > .box").eq(0).text(hour);
+                $(".minute > .box").eq(0).text(min);
+                $(".second > .box").eq(0).text(sec);
+
+                if($(".second > .box").eq(1).text() != $(".second > .box").eq(0)) {
+                    $(".second > .box").eq(0).css({"top": 0});
+                    $(".second > .box").eq(1).css({"top": "100%"});
+                }
+
+                if($(".minute > .box").eq(1).text() != $(".minute > .box").eq(0).text()) {
+                    $(".minute > .box").eq(0).css({"top": 0});
+                    $(".minute > .box").eq(1).css({"top": "100%"});
+                }
+
+                if($(".hour > .box").eq(1).text() != $(".hour > .box").eq(0).text()) {
+                    $(".hour > .box").eq(0).css({"top": 0});
+                    $(".hour > .box").eq(1).css({"top": "100%"});
+                }
+
+
+                h.text(hour);
+                m.text(min);
+                s.text(sec);
+                time++;
+            }, 600);
+        }
+
+
+       
+        $("#stop").on("click",e=> {
+            if(flag) {
+                clearInterval(interval);
+                $("#stop").text('재시작');
+                // time=0;
+                flag = false;
+            } else {
+                interval = setInterval(start,700);
+                $("#stop").text('일시정지');
+                flag = true;
+            }
+        });
+
+        let interval;
+        
+        $("#start").on("click",e=> {
+            if(flag) {
+                return
+            } else {
+                time=0;
+                interval = setInterval(start,700);
+                setInterval(interval);
+                flag = true;
+            }
+
+        });
+
+        $("#reset").on("click",e=> {
+            clearInterval(interval);
+            flag= false;
+        });
+
+    //     function Animation( opt ) {
+    //     var context = opt.canvas.getContext("2d");
+    //     var handle = 0;
+    //     var current = 0;
+    //     var percent = 0;
+    //     log(opt);
+
+    //     this.start = function( percentage ) {
+    //         percent = percentage;
+    //         handle = setInterval( draw, opt.interval );
+    //     }
+
+    //     context.fillStyle = opt.backcolor;
+    //     context.fillRect( 0, 0, opt.width, opt.height );
+
+    //     context.arc( opt.width / 2, opt.height / 2, opt.radius, 0, 2 * Math.PI, false );
+    //     context.lineWidth = opt.linewidth;
+    //     context.strokeStyle = opt.circlecolor;
+    //     context.stroke();
+
+    //     function draw() {
+    //         context.beginPath();
+    //         context.arc( opt.width / 2, opt.height / 2, opt.radius-(opt.linewidth/2), 0, 2 * Math.PI, false );
+    //         context.clip();
+    //         var height = ((100-current)*opt.radius*2)/100 + (opt.height-(opt.radius*2))/2;
+    //         context.fillStyle = opt.fillcolor;
+    //         context.fillRect( 0, height, opt.width, opt.radius*2 );
+
+
+    //         if ( current < percent ) current+=opt.step;
+    //         else clearInterval(handle);
+    //     }
+    // }
+
+    // var canvas = document.getElementById("Circle");
+    // new Animation({
+    //     'canvas': canvas,
+    //     'width': canvas.width,
+    //     'height': canvas.height,
+    //     'radius': 100,
+    //     'linewidth': 10,        
+    //     'interval': 20,
+    //     'step': 1,
+    //     'backcolor': '#666',
+    //     'circlecolor': '#fff',
+    //     'fillcolor': '#339999'
+    // }).start( 70 );
+    </script>
+</body>
+</html>

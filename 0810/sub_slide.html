@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./css/app.css">    
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="msg-box">
+                니나브
+            </div>
+            <div class="indicator">
+                <div class="pin" data-idx=0></div>
+                <div class="pin" data-idx=1></div>
+                <div class="pin" data-idx=2></div>
+                <div class="pin" data-idx=3></div>
+                <div class="pin" data-idx=4></div>
+                <div class="pin" data-idx=5></div>
+            </div>
+            <div class="slider">
+                <div class="box">
+                    <!-- 사용자 정의 속성 -->
+                    <img src=".images/img1.jpg" alt="01.png" data-name="-1-">
+                </div>
+                <div class="box">
+                    <img src=".images/img2.jpg" alt="02.png" data-name="-2-">
+                </div>
+                <div class="box">
+                    <img src=".images/img3.jpg" alt="03.png" data-name="-3-">
+                </div>
+                <div class="box">
+                    <img src=".images/img4.jpg" alt="04.png" data-name="-4-">
+                </div>
+                <div class="box">
+                    <img src=".images/img5.jpg" alt="05.png" data-name="-5-">
+                </div>
+                <div class="box">
+                    <img src=".images/img6.jpg" alt="06.png" data-name="-6-">
+                </div>
+            </div>
+            <div class="controller">
+                <button class="controlBtn" id="prev">&lt;</button>
+                <button class="controlBtn" id="next">&gt;</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const log = console.log;
+        let current = 0;
+        let isSlide = false;
+
+        slide();
+        $("#prev").on("click", function(){
+            if(isSlide) return;
+            current--;
+            slide();
+        });
+
+        $("#next").on("click", function(){
+            if(isSlide) return;
+            current++;
+            slide();    
+        });
+
+        $(".pin").on("click", function(){
+            let idx = $(this).attr("data-idx");
+            current=idx;
+            slide();
+        });
+
+        function slide() {
+            isSlide=true;
+            $(".pin").removeClass("active");
+
+            $(".slider").animate({"left": `-${current * 300}px`},500, function() {
+                isSlide=false;
+            });
+            $(".pin").eq(current).addClass('active');
+
+            let name = $(".box > img").eq(current).data("name");
+            $(".msg-box").text(name);
+
+            $(".msg-box").animate({"top":"100%", "opcaity":0},500,function() {
+                $(".msg-box").css({"top":"-50px", "opcaity":1});
+                setTimeout(function() {
+                    $(".msg-box").animate({"top":"18px"},400);
+                },200);
+            });
+
+            
+            if(current <=0) {
+                $("#prev").attr("disabled",true);
+            } else if(current >=5 ) {
+                $("#next").attr("disabled",true);
+            } else {
+                $("#prev").attr("disabled",false);
+                $("#next").attr("disabled",false);
+            }
+        }
+    </script>
+</body>
+</html>
